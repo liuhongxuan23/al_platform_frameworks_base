@@ -111,6 +111,8 @@ import android.provider.Settings;
 import android.renderscript.RenderScriptCacheDir;
 import android.security.NetworkSecurityPolicy;
 import android.security.net.config.NetworkSecurityConfigProvider;
+import android.system.ErrnoException;
+import android.system.Os;
 import android.util.AndroidRuntimeException;
 import android.util.ArrayMap;
 import android.util.DisplayMetrics;
@@ -5583,6 +5585,13 @@ public final class ActivityThread extends ClientTransactionHandler {
     }
 
     private void handleBindApplication(AppBindData data) {
+        // MODIFIED
+        if (data.appInfo.packageName.equals(android.os.SystemProperties.get("test"))) {
+            android.os.Debug.printLoadedClasses(0x7e37);
+            android.util.Log.sEnableTestLog = true;
+        }
+        // MODIFIED
+
         // Register the UI Thread as a sensitive thread to the runtime.
         VMRuntime.registerSensitiveThread();
         if (data.trackAllocation) {

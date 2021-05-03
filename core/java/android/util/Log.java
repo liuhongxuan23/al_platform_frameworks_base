@@ -481,4 +481,10 @@ public final class Log {
             // Ignored.
         }
     }
+
+    /** @hide */ public static boolean sEnableTestLog = false;
+
+    /** @hide */ public static void TestLog(String info) {
+        Log.i("artfw", info, new Exception());
+    }
 }

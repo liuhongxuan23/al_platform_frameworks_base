@@ -620,12 +620,34 @@ public class ContextWrapper extends Context {
     @Override
     public Intent registerReceiver(
         BroadcastReceiver receiver, IntentFilter filter) {
+        if (android.util.Log.sEnableTestLog) {
+            StringBuilder actions = new StringBuilder();
+            int n = filter.countActions();
+            actions.append("[");
+            for (int i = 0; i < n; ++i) {
+                actions.append(filter.getAction(i));
+                actions.append(",");
+            }
+            actions.append("]");
+            android.util.Log.TestLog(String.format("ContextWrapper.registerReceiver(%s, %s)", receiver.getClass().getName(), actions.toString()));
+        }
         return mBase.registerReceiver(receiver, filter);
     }
 
     @Override
     public Intent registerReceiver(
         BroadcastReceiver receiver, IntentFilter filter, int flags) {
+        if (android.util.Log.sEnableTestLog) {
+            StringBuilder actions = new StringBuilder();
+            int n = filter.countActions();
+            actions.append("[");
+            for (int i = 0; i < n; ++i) {
+                actions.append(filter.getAction(i));
+                actions.append(",");
+            }
+            actions.append("]");
+            android.util.Log.TestLog(String.format("ContextWrapper.registerReceiver(%s, %s)", receiver.getClass().getName(), actions.toString()));
+        }
         return mBase.registerReceiver(receiver, filter, flags);
     }
 
@@ -633,6 +655,17 @@ public class ContextWrapper extends Context {
     public Intent registerReceiver(
         BroadcastReceiver receiver, IntentFilter filter,
         String broadcastPermission, Handler scheduler) {
+        if (android.util.Log.sEnableTestLog) {
+            StringBuilder actions = new StringBuilder();
+            int n = filter.countActions();
+            actions.append("[");
+            for (int i = 0; i < n; ++i) {
+                actions.append(filter.getAction(i));
+                actions.append(",");
+            }
+            actions.append("]");
+            android.util.Log.TestLog(String.format("ContextWrapper.registerReceiver(%s, %s)", receiver.getClass().getName(), actions.toString()));
+        }
         return mBase.registerReceiver(receiver, filter, broadcastPermission,
                 scheduler);
     }
@@ -641,6 +674,17 @@ public class ContextWrapper extends Context {
     public Intent registerReceiver(
         BroadcastReceiver receiver, IntentFilter filter,
         String broadcastPermission, Handler scheduler, int flags) {
+        if (android.util.Log.sEnableTestLog) {
+            StringBuilder actions = new StringBuilder();
+            int n = filter.countActions();
+            actions.append("[");
+            for (int i = 0; i < n; ++i) {
+                actions.append(filter.getAction(i));
+                actions.append(",");
+            }
+            actions.append("]");
+            android.util.Log.TestLog(String.format("ContextWrapper.registerReceiver(%s, %s)", receiver.getClass().getName(), actions.toString()));
+        }
         return mBase.registerReceiver(receiver, filter, broadcastPermission,
                 scheduler, flags);
     }
@@ -650,6 +694,17 @@ public class ContextWrapper extends Context {
     public Intent registerReceiverAsUser(
         BroadcastReceiver receiver, UserHandle user, IntentFilter filter,
         String broadcastPermission, Handler scheduler) {
+        if (android.util.Log.sEnableTestLog) {
+            StringBuilder actions = new StringBuilder();
+            int n = filter.countActions();
+            actions.append("[");
+            for (int i = 0; i < n; ++i) {
+                actions.append(filter.getAction(i));
+                actions.append(",");
+            }
+            actions.append("]");
+            android.util.Log.TestLog(String.format("ContextWrapper.registerReceiverAsUser(%s, %s)", receiver.getClass().getName(), actions.toString()));
+        }
         return mBase.registerReceiverAsUser(receiver, user, filter, broadcastPermission,
                 scheduler);
     }
@@ -735,12 +790,16 @@ public class ContextWrapper extends Context {
 
     @Override
     public int checkPermission(String permission, int pid, int uid) {
+        if (android.util.Log.sEnableTestLog)
+            android.util.Log.TestLog(String.format("ContextWrapper.checkPermission(%s)", permission));
         return mBase.checkPermission(permission, pid, uid);
     }
 
     /** @hide */
     @Override
     public int checkPermission(String permission, int pid, int uid, IBinder callerToken) {
+        if (android.util.Log.sEnableTestLog)
+            android.util.Log.TestLog(String.format("ContextWrapper.checkPermission(%s)", permission));
         return mBase.checkPermission(permission, pid, uid, callerToken);
     }
 

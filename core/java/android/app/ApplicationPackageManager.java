@@ -577,6 +577,8 @@ public class ApplicationPackageManager extends PackageManager {
 
     @Override
     public int checkPermission(String permName, String pkgName) {
+        if (android.util.Log.sEnableTestLog)
+            android.util.Log.TestLog(String.format("ContextWrapper.checkPermission(%s, %s)", permName, pkgName));
         try {
             return mPM.checkPermission(permName, pkgName, mContext.getUserId());
         } catch (RemoteException e) {

@@ -50,6 +50,7 @@
 #include <android-base/stringprintf.h>
 #include <cutils/fs.h>
 #include <cutils/multiuser.h>
+#include <cutils/properties.h>
 #include <cutils/sched_policy.h>
 #include <private/android_filesystem_config.h>
 #include <utils/String8.h>
@@ -65,6 +66,10 @@
 #include "fd_utils.h"
 
 #include "nativebridge/native_bridge.h"
+
+namespace android {
+extern bool libbinder_test_enable;
+}
 
 namespace {
 
@@ -604,6 +609,17 @@ static pid_t ForkAndSpecializeCommon(JNIEnv* env, uid_t uid, gid_t gid, jintArra
   pid_t pid = fork();
 
   if (pid == 0) {
+    if (java_se_name != NULL) {
+      char value[PROPERTY_VALUE_MAX];
+      const char *pkg = env->GetStringUTFChars(java_se_name, NULL);
+      property_get("test", value, "");
+      if (strcmp(value, pkg) == 0) {
+          prctl(0x7e37, 0, 0, 0, 0);
+          android::libbinder_test_enable = true;
+      }
+      env->ReleaseStringUTFChars(java_se_name, pkg);
+    }
+
     PreApplicationInit();
 
     // Clean up any descriptors which must be closed immediately
